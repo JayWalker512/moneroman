@@ -13,8 +13,6 @@ Configuring
 The script defines several variables which are used for configuration. You
 will find them at the top of the `moneroman.sh` file with comments explaining use.
 
-Moneroman.sh depends on the `cpulimit` command line utility, which you may need to install. On Ubuntu 16.04 you can install cpulimit with the `sudo apt install cpulimit` command.
-
 Installing
 ==========
 

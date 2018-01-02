@@ -20,21 +20,19 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
 
+#This version of the script is designed with xmr-stak 2.2.0 in mind.
+
 #Set this to the command which should run in 'low performance' mode
-LOW_MINER_PATH="/home/username/xmr-stak-cpu/bin/xmr-stak-cpu /home/username/xmr-stak-cpu/config.txt"
+LOW_MINER_COMMAND="/home/username/xmr-stak/bin/xmr-stak --config /home/username/xmr-stak/config.txt --cpu /home/username/xmr-stak/cpu-low.txt >> /home/username/xmr-stak/log.txt"
 
 #Set this to the command which should run in 'high performance' mode
-HIGH_MINER_PATH="/home/username/xmr-stak-cpu/bin/xmr-stak-cpu /home/username/xmr-stak-cpu/multi.txt"
-
-#Set this to the percentage of CPU time available to the 'low performance' mode process
-#100 == 1 core, 200 == 2 cores, and so on.
-let LOW_LIMIT=50
+HIGH_MINER_COMMAND="/home/username/xmr-stak/bin/xmr-stak --config /home/username/xmr-stak/config.txt --cpu /home/username/xmr-stak/cpu-high.txt >> /home/username/xmr-stak/log.txt"
 
 #Name of the process being managed
-MINER_PROCESS_NAME="xmr-stak-cpu"
+MINER_PROCESS_NAME="xmr-stak"
 
 #Names of processes which when running will cause the managed process to switch to low performance mode
-WHITELISTED_PROCESSES=("chrome" "firefox")
+WHITELISTED_PROCESSES=("chrome" "firefox" "java")
 
 #Don't change anything below this comment
 
@@ -58,12 +56,12 @@ while true; do
 		if [ $BRUNNING == 1 ]; then
 			#start low mode
 			echo "Starting $MINER_PROCESS_NAME in low performance mode..."
-			cpulimit -l $LOW_LIMIT $LOW_MINER_PATH &
+			eval $LOW_MINER_COMMAND
 			CURRENT_MODE="LOW"
 		else
-			#start high mode (no cpulimit)
+			#start high mode
 			echo "Starting $MINER_PROCESS_NAME in high performance mode..."
-			$HIGH_MINER_PATH &
+			eval $HIGH_MINER_COMMAND
 			CURRENT_MODE="HIGH"
 		fi
 	
